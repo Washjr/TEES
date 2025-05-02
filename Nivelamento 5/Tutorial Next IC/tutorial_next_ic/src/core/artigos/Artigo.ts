@@ -1,9 +1,9 @@
 interface Artigo {
-  researcher: string;
-  title: string;
+  nomeartigo: string;
   doi: string;
   qualis: string;
-  year: number;
+  anoartigo: number;
+  nomepesquisador: string;
 }
 
 export default Artigo;

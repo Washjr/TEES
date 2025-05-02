@@ -1,5 +1,5 @@
 const url: string =
-  "http://localhost:8080/researcherName?name=&graduate_program_id=";
+  "http://localhost:8000/pesquisadores";
 
 const getPesquisadores = async () => {
   const resposta = await fetch(url, {

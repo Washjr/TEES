@@ -16,12 +16,12 @@ export default function Artigos() {
                         className="flex flex-col gap-3 bg-slate-300 px-3 py-2 rounded-md transition-all text-white mt-7"
                         key={artigo.doi}
                     >
-                        <p className="bg-slate-400 rounded-md p-2 mt-2">Título: {artigo.title}</p>
-                        <p className="flex justify-between items-center text-black">
-                            <p>Autor: {artigo.researcher}</p>
+                        <p className="bg-slate-400 rounded-md p-2 mt-2">Título: {artigo.nomeartigo}</p>
+                        <div className="flex justify-between items-center text-black">
+                            <p>Autor: {artigo.nomepesquisador}</p>
                             <p>Qualis: {artigo.qualis}</p>
-                            <p>Ano de publicação: {artigo.year}</p>
-                        </p>
+                            <p>Ano de publicação: {artigo.anoartigo}</p>
+                        </div>
                     </li>
                 ))}
             </ul>

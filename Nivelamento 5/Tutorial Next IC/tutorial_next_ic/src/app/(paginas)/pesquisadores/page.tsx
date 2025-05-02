@@ -16,7 +16,7 @@ export default function Pesquisadores() {
                         key={pesquisador.lattes_id}
                     >
                         <p className="flex justify-between items-center bg-slate-400 rounded-md p-2 mt-2">
-                            <span className="text-lg font-semibold">Pesquisador: {pesquisador.name}</span>
+                            <span className="text-lg font-semibold">Pesquisador: {pesquisador.nome}</span>
                             <span className="text-lg font-semibold">ID Lattes: {pesquisador.lattes_id}</span>
                             <span className="text-lg font-semibold">Artigos: {pesquisador.articles}</span>
                         </p>

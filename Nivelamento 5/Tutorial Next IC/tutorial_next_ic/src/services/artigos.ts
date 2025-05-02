@@ -1,5 +1,5 @@
 const url: string =
-  "http://localhost:8080/bibliographic_production_researcher?terms=&researcher_id=&type=ARTICLE&qualis=&year=";
+  "http://localhost:8000/producoes";
 
 const getArtigos = async () => {
   const resposta = await fetch(url, {
@@ -12,6 +12,7 @@ const getArtigos = async () => {
   if (!resposta.ok) {
     throw new Error("Nao foi possivel buscar os artigos");
   }
+
   return resposta.json();
 };
 

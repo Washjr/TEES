@@ -17,7 +17,9 @@ pesquisador_router = APIRouter()
 def adicionar(pesquisador: Pesquisador):
     resposta = salvar_novo_pesquisador(
         nome = pesquisador.nome,
-        lattes_id = pesquisador.lattes_id
+        lattes_id = pesquisador.lattes_id,
+        articles = pesquisador.articles,
+        abstract = pesquisador.abstract
         # ,
         # pesquisador_id=pesquisador.pesquisadores_id       
     )
@@ -52,7 +54,9 @@ def atualizar(lattes_id: str, pesquisador: Pesquisador):
     resposta = atualizar_por_id(
         nome = pesquisador.nome,
         pesquisadores_id = pesquisador.pesquisadores_id,
-        lattes_id = pesquisador.lattes_id
+        lattes_id = pesquisador.lattes_id,
+        articles = pesquisador.articles,
+        abstract = pesquisador.abstract
     )
     
     if 'Erro' in resposta:

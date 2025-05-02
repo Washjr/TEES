@@ -1,34 +1,36 @@
 # Importa a conexão Singleton do banco de dados
+from typing import Dict, List
 from banco import conexao_singleton as cs
+from model.producao import Producao
 
 # Obtém uma instância de conexão com o banco de dados
 conexao = cs.Conexao().get_conexao()
 
 # Função para salvar um novo pesquisador no banco de dados
-def salvar_novo_pesquisador(nome: str, lattes_id: str, articles: int, abstract: str) -> str:
+def salvar_nova_producao(producao:Producao) -> str:
     # SQL para inserir um novo registro na tabela "pesquisadores"
     sql = """
-            INSERT INTO pesquisadores (lattes_id, nome, articles, abstract)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO producoes (nomeartigo, anoartigo, pesquisadores_id, issn, doi, qualis, nomepesquisador)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
     
     try:
         # Utiliza a conexão para abrir um cursor e executar o SQL
         with conexao.cursor() as cursor:
-            cursor.execute(sql, (lattes_id, nome, articles, abstract))
+            cursor.execute(sql, (producao.nomeartigo, producao.anoartigo, producao.pesquisadores_id, producao.issn, producao.doi, producao.qualis, producao.nomepesquisador))
             # Confirma a transação no banco
             conexao.commit()
             
-            return "Novo pesquisador salvo com sucesso!"
+            return "Nova Produção salva com sucesso!"
     except Exception as e:
         # Se ocorrer uma exceção, reverte a transação
         conexao.rollback()
         return f"Erro ao salvar: {e}"
     
 # Função para listar todos os pesquisadores do banco de dados
-def listar_todos() -> str:
+def listar_todos() -> List[Dict]:
     # SQL para selecionar todos os registros da tabela "pesquisadores"
-    sql: str = "SELECT * FROM pesquisadores"
+    sql: str = "SELECT * FROM producoes"
     
     # Utiliza a conexão para abrir um cursor e executar o SQL
     with conexao.cursor() as cursor:
@@ -44,18 +46,18 @@ def listar_todos() -> str:
         return dados
 
 # Função para atualizar um pesquisador no banco de dados com base no "lattes_id"
-def atualizar_por_id(nome: str, pesquisadores_id: str, lattes_id: str, articles: int, abstract: str) -> str:
+def atualizar_por_id(producao:Producao) -> str:
     # SQL para atualizar os dados de um pesquisador específico
     sql = """
-            UPDATE pesquisadores
-            SET nome = %s, pesquisadores_id = %s, articles = %s, abstract = %s
-            WHERE lattes_id = %s
+            UPDATE producoes
+            SET nomeartigo = %s, issn=%s, anoartigo=%s, doi=%s, qualis=%s, nomepesquisador=%s
+            WHERE producoes_id = %s
         """
     
     try:
         # Utiliza a conexão para abrir um cursor e executar o SQL
         with conexao.cursor() as cursor:
-            cursor.execute(sql, (nome, pesquisadores_id, articles, abstract, lattes_id))
+            cursor.execute(sql, ( producao.nomeartigo, producao.issn, producao.anoartigo, producao.doi, producao.qualis, producao.nomepesquisador, producao.producoes_id))
             
             if (cursor.rowcount < 0):
                 raise Exception()
@@ -63,27 +65,27 @@ def atualizar_por_id(nome: str, pesquisadores_id: str, lattes_id: str, articles:
             # Confirma a transação no banco
             conexao.commit()
             
-            return "Pesquisador atualizado com sucesso!"
+            return "Produção atualizada com sucesso!"
     except Exception as e:
         # Se ocorrer uma exceção, reverte a transação
         conexao.rollback()
-        return f"Erro ao atualizar pesquisador: {e}"
+        return f"Erro ao atualizar produção: {e}"
 
 # Função para apagar um pesquisador do banco de dados com base no "lattes_id"
-def apagar_por_lattes_id(lattes_id: str) -> str:
+def apagar_por_producao_id(producao_id: str) -> str:
     
     # SQL para excluir um pesquisador específico com base no "lattes_id"
 
     sql = """
-            DELETE FROM pesquisadores
-            WHERE lattes_id = %s
+            DELETE FROM producoes
+            WHERE producoes_id = %s
         """
     
     try:
         # Utiliza a conexão para abrir um cursor e executar o SQL
         with conexao.cursor() as cursor:
             
-            cursor.execute(sql, (lattes_id, ))
+            cursor.execute(sql, (producao_id, ))
             
             if (cursor.rowcount > 0):
                 # Confirma a transação no banco
@@ -91,8 +93,8 @@ def apagar_por_lattes_id(lattes_id: str) -> str:
             else:
                 raise Exception()
             
-            return "Pesquisador apagado com sucesso!"
+            return "Produção apagada com sucesso!"
     except Exception as e:
         # Se ocorrer uma exceção, reverte a transação
         conexao.rollback()
-        return f"Erro ao apagar pesquisador. Pesquisador inexistente ou ID inválido."
+        return f"Erro ao apagar produção. Produção inexistente ou ID inválido."

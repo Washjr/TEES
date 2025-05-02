@@ -2,11 +2,14 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi import Request
 from controller.pesquisador_controller import pesquisador_router
+from controller.producoes_controller import producao_router
 
 app = FastAPI()
 
 # Inclui o router de pesquisadores
 app.include_router(pesquisador_router)
+# Inclui o router de producoes
+app.include_router(producao_router)
 
 @app.get("/", response_class=HTMLResponse)
 async def index():

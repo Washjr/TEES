@@ -1,5 +1,5 @@
 interface Pesquisador {
-  name: string;
+  nome: string;
   lattes_id: string;
   abstract: string;
   articles: number;
